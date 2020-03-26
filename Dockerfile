@@ -1,4 +1,5 @@
 FROM ubuntu:19.10
+LABEL maintainer="Platfobs"
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -qq -y update \
@@ -10,20 +11,20 @@ RUN apt-get -qq -y update \
         fonts-tlwg-purisa python3-pip python3-uno python3-lxml python3-icu unoconv \
     && apt-get -qq -y autoremove \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
-# RUN apt-get -q -y install ttf-mscorefonts-installer
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && && apt-get -q -y remove libreoffice-gnome libreoffice-gtk3
+    && python3 --version \
+    && pip3 --version; \
+    && libreoffice --help
 
 # Set up the locale and make sure the system uses unicode for the file system.
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && dpkg-reconfigure locales \
-    && update-locale LANG=en_US.UTF-8 && python3 --version
+    && update-locale LANG=en_US.UTF-8
 ENV LANG='en_US.UTF-8' \
     LC_ALL='en_US.UTF-8'
 
-RUN groupadd -g 1000 -r app \
-    && useradd -m -u 1000 -s /bin/false -g app app 
 
-# RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
+CMD ["python3"]
