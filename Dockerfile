@@ -12,7 +12,7 @@ RUN apt-get -qq -y update \
     && apt-get -qq -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && && apt-get -q -y remove libreoffice-gnome libreoffice-gtk3
+    && apt-get -q -y remove libreoffice-gnome libreoffice-gtk3
     && python3 --version \
     && pip3 --version; \
     && libreoffice --help
